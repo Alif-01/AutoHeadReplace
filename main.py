@@ -99,7 +99,7 @@ def replace_single_face(img1, img2, img3, feature1, feature2, feature3):
     return img1
 
 
-def blend_image(image1, image2):
+def blend_image(image1, image2, feather_radius):
     im1 = image1.convert('RGB')
     im2 = image2.convert('RGB')
     im3 = Image.new('RGB', im1.size)
@@ -109,7 +109,7 @@ def blend_image(image1, image2):
     im2 = im2.filter(ImageFilter.GaussianBlur(5))
 
     alpha = image2.split()[3]
-    alpha = alpha.filter(ImageFilter.GaussianBlur(12))
+    alpha = alpha.filter(ImageFilter.GaussianBlur(feather_radius))
     ar_alpha = np.clip((np.asarray(alpha)/255-0.5)*2, 0, 1)
 
     ar0 = np.asarray(image1).astype('float32')
@@ -137,7 +137,7 @@ def blend_image(image1, image2):
     return image1
 
 
-def replace_faces(image, new_face):
+def replace_faces(image, new_face, feather_radius=5):
     image = image.convert('RGBA')
     new_face = new_face.convert('RGBA')
 
@@ -167,7 +167,7 @@ def replace_faces(image, new_face):
                                           face, new_face_feature[0], new_face_rev_feature[0])
 
     print("blending...")
-    image = blend_image(image, cover_image)
+    image = blend_image(image, cover_image, feather_radius)
 
     print("done.")
 
@@ -176,9 +176,10 @@ def replace_faces(image, new_face):
 
 # ikisugi! 191919
 if __name__ == '__main__':
-    test_img1 = Image.open("C:\\Users\\admin\\Pictures\\yajue.jpg")
-    test_img2 = Image.open("C:\\Users\\admin\\Pictures\\ikisugi.png")
+    test_img1 = Image.open("yajue.jpg")
+    test_img2 = Image.open("yajue1.png")
 
     test_img3 = replace_faces(test_img1, test_img2)
 
-    test_img3.save("D:/senpai.png")
+    test_img3.save("senpai.png")
+    # test_img3.show()
