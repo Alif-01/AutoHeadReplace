@@ -1,7 +1,7 @@
 # AutoHeadReplace
 自动换头器
 
-## Sample
+## Example
 ![sample](https://github.com/Alif-01/AutoHeadReplace/blob/master/sample.png)
 
 ## Installation
